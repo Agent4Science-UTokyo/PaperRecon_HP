@@ -1,30 +1,27 @@
-# MangaVQA and MangaLMM
+# PaperRecon: Paper Reconstruction Evaluation
 
-This is the repository that contains source code for the [MangaVQA and MangaLMM project website](https://atsumiyai.github.io/mangalmm_vqa/).
+This is the repository that contains source code for the [PaperRecon project website](https://atsumiyai.github.io/PaperRecon/).
 
 ## Project Description
 
-We present **MangaVQA**, a benchmark of 526 manually constructed question–answer pairs designed to evaluate an LMM's ability to accurately answer targeted, factual questions grounded in both visual and textual context. We also develop **MangaLMM**, a manga-specialized version of Qwen2.5-VL, finetuned to jointly address both VQA and OCR tasks.
+We introduce **Paper Reconstruction Evaluation (PaperRecon)**, the first systematic evaluation framework for quantifying the quality and risks of papers written by modern coding agents. PaperRecon disentangles the evaluation of AI-written papers into two orthogonal dimensions: **Presentation** and **Hallucination**. We also introduce **PaperWrite-Bench**, a benchmark of 51 papers from top-tier venues across diverse domains published after 2025.
 
 ## Citation
 
-If you find MangaVQA and MangaLMM useful for your work please cite:
+If you find PaperRecon useful for your work please cite:
 
 ```bibtex
-@inproceedings{baek2025mangavqa,
-  author    = {Baek, Jeonghun and Egashira, Kazuki and Onohara, Shota and Miyai, Atsuyuki and Imajuku, Yuki and Ikuta, Hikaru and Aizawa, Kiyoharu},
-  title     = {MangaVQA and MangaLMM: A Benchmark and Specialized Model for Multimodal Manga Understanding},
-  booktitle = {Findings of the Association for Computational Linguistics: EACL 2026},
-  year      = {2026},
+@article{miyai2025paperrecon,
+  author    = {Miyai, Atsuyuki and Toyooka, Mashiro and Zhao, Zaiying and Watanabe, Kenta and Yamasaki, Toshihiko and Aizawa, Kiyoharu},
+  title     = {Paper Reconstruction Evaluation: Evaluating Presentation and Hallucination in AI-written Papers},
+  year      = {2025},
 }
 ```
 
 ## Links
 
-- [Paper](https://arxiv.org/abs/2505.20298)
-- [Code](https://github.com/manga109/MangaLMM)
-- [Dataset](https://huggingface.co/collections/hal-utokyo/mangavqa-and-mangaocr)
-- [Model](https://huggingface.co/hal-utokyo/MangaLMM)
+- [Code](https://github.com/Agent4Science-UTokyo/PaperRecon)
+- [Dataset](https://huggingface.co/datasets/hal-utokyo/PaperWrite-Bench)
 
 # Website License
 
