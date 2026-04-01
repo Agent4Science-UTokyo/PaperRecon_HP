@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="Paper Reconstruction Evaluation: Evaluating Presentation and Hallucination in AI-written Papers">
+  <meta name="keywords" content="AI Writing, Paper Generation, Hallucination, Evaluation, Scientific Writing, Coding Agents">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PaperRecon: Paper Reconstruction Evaluation</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+<body>
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+</nav>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-2 publication-title">
+            <span style="font-size: 1.1em;">Paper Reconstruction Evaluation</span><br><span style="font-size: 0.8em;">Evaluating Presentation and Hallucination in AI-written Papers</span>
+          </h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://atsumiyai.github.io/">Atsuyuki Miyai</a>,
+            </span>
+            <span class="author-block">
+              Mashiro Toyooka*,
+            </span>
+            <span class="author-block">
+              <a href="https://zaiyingzhao.github.io/">Zaiying Zhao</a>*,
+            </span>
+            <span class="author-block">
+              Kenta Watanabe*
+            </span>
+            <br>
+            <span class="author-block">
+              <strong><a href="https://scholar.google.com/citations?user=rE9iY5MAAAAJ&hl=ja">Toshihiko Yamasaki</a></strong>,
+            </span>
+            <span class="author-block">
+              <strong><a href="https://scholar.google.co.jp/citations?user=CJRhhi0AAAAJ&hl=en">Kiyoharu Aizawa</a></strong>
+            </span>
+          </div>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">The University of Tokyo</span>
+          </div>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">*: Equal Contribution</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href=""
+                  class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper (Coming Soon)</span>
+                </a>
+              </span>
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href="https://github.com/Agent4Science-UTokyo/PaperRecon"
+                  class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+              <!-- Dataset Link. -->
+              <span class="link-block">
+                <a href="https://huggingface.co/datasets/hal-utokyo/PaperWrite-Bench"
+                  class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="far fa-images"></i>
+                  </span>
+                  <span>Dataset</span>
+                  </a>
+              </span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <img src="./static/images/pr_eval.png" alt="PaperRecon Overview" style="max-width: 100%; height: auto;">
+      <h2 class="subtitle has-text-centered">
+        <strong>Paper Reconstruction Evaluation.</strong> Given minimal resources derived from an original paper, a coding agent reconstructs the full paper. The generated paper is then compared with the original to evaluate writing performance along two complementary axes: presentation quality and hallucination.
+      </h2>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            This paper introduces the first systematic evaluation framework for quantifying the quality and risks of papers written by modern coding agents.
+            While AI-driven paper writing has become a growing concern, rigorous evaluation of the quality and potential risks of AI-written papers remains limited, and a unified understanding of their reliability is still lacking.
+          </p>
+          <p>
+            We introduce <strong>Paper Reconstruction Evaluation (PaperRecon)</strong>, an evaluation framework in which an overview is created from an existing paper, after which an agent generates a full paper based on the overview and minimal additional resources, and the result is subsequently compared against the original paper. PaperRecon disentangles the evaluation of AI-written papers into two orthogonal dimensions: <strong>Presentation</strong> and <strong>Hallucination</strong>, where Presentation is evaluated using a rubric and Hallucination is assessed via agentic evaluation grounded in the original paper source.
+          </p>
+          <p>
+            For evaluation, we introduce <strong>PaperWrite-Bench</strong>, a benchmark of 51 papers from top-tier venues across diverse domains published after 2025. Our experiments reveal a clear trade-off: while both ClaudeCode and Codex improve with model advances, ClaudeCode achieves higher presentation quality at the cost of more than 10 hallucinations per paper on average, whereas Codex produces fewer hallucinations but lower presentation quality.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column">
+        <div class="content has-text-left">
+          <h2 class="title is-3 has-text-centered">Paper Reconstruction Evaluation</h2>
+
+          <h3 class="title is-4" style="margin-top: 1.5rem;">Problem Definition</h3>
+          <p>
+            Paper Reconstruction Evaluation (PaperRecon) is a framework for evaluating how accurately coding agents can reconstruct scientific papers. From each original paper, we extract the following information and provide it to the agent:
+          </p>
+          <ul>
+            <li><strong>Research Overview:</strong> A Markdown file summarizing the motivation, method, and key experimental results</li>
+            <li><strong>Figures:</strong> Figures from the original paper with simplified captions</li>
+            <li><strong>Tables:</strong> LaTeX source code of tables with simplified captions</li>
+            <li><strong>References:</strong> The bibliography file augmented with abstracts</li>
+            <li><strong>Code:</strong> The codebase associated with the original paper (when available)</li>
+          </ul>
+          <p>
+            Given these inputs, the agent is tasked with reconstructing the original paper. The generated paper is then compared against the original from multiple perspectives.
+          </p>
+
+          <h3 class="title is-4" style="margin-top: 2rem;">Evaluation Protocol</h3>
+          <div style="text-align: center; margin: 1.5rem 0;">
+            <img src="./static/images/eval_details.png" alt="Evaluation Pipeline" style="max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 8px;">
+            <p class="has-text-grey" style="margin-top: 0.5rem; font-size: 0.9rem;">Overview of the PaperRecon evaluation pipeline. Presentation evaluation with rubric and agentic hallucination evaluation.</p>
+          </div>
+
+          <p>
+            We evaluate generated papers by comparing them against ground-truth (GT) papers along three complementary axes:
+          </p>
+
+          <div class="columns is-multiline" style="margin-top: 1rem;">
+            <div class="column is-one-third">
+              <div class="notification is-info is-light">
+                <p class="has-text-weight-bold"><i class="fas fa-clipboard-check"></i> Rubric Evaluation</p>
+                <p style="font-size: 0.9rem;">Fine-grained assessment of whether key elements of the original paper are preserved (1-5 scale)</p>
+              </div>
+            </div>
+            <div class="column is-one-third">
+              <div class="notification is-danger is-light">
+                <p class="has-text-weight-bold"><i class="fas fa-exclamation-triangle"></i> Hallucination Analysis</p>
+                <p style="font-size: 0.9rem;">Two-stage claim-level analysis to detect factual errors and contradictions</p>
+              </div>
+            </div>
+            <div class="column is-one-third">
+              <div class="notification is-success is-light">
+                <p class="has-text-weight-bold"><i class="fas fa-quote-right"></i> Citation Evaluation</p>
+                <p style="font-size: 0.9rem;">F1-based metric comparing citation keys between GT and generated papers</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Rubric Evaluation Details -->
+          <h4 class="title is-5" style="margin-top: 1.5rem;">Rubric Evaluation</h4>
+          <p>
+            For each GT paper, we pre-construct a rubric specifying key elements expected in each section, along with their relative importance. Each rubric element corresponds to a concrete and verifiable point. An LLM judge evaluates how well the generated section covers each rubric element on a 1-5 scale:
+          </p>
+          <div class="box" style="background-color: #f9f9f9;">
+            <ul style="margin-bottom: 0;">
+              <li><strong>5:</strong> Content is fully and accurately described with correct details</li>
+              <li><strong>4:</strong> Content is mostly described, with core idea present but some details missing</li>
+              <li><strong>3:</strong> Content is partially described, with significant gaps or vagueness</li>
+              <li><strong>2:</strong> Content is barely mentioned, with only a superficial reference</li>
+              <li><strong>1:</strong> Content is completely absent from the generated section</li>
+            </ul>
+          </div>
+
+          <!-- Hallucination Details -->
+          <h4 class="title is-5" style="margin-top: 1.5rem;">Hallucination Analysis</h4>
+          <p>We identify factual errors via a two-stage, claim-level analysis:</p>
+          <p>
+            <strong>Stage 1 (Claim Extraction):</strong> An LLM extracts all concrete and verifiable claims and classifies each as <em>Supported</em>, <em>Neutral</em>, or <em>Contradictory</em> (with severity: major or minor).
+          </p>
+          <p>
+            <strong>Stage 2 (Verification):</strong> All contradictory claims are aggregated and re-evaluated with a coding agent provided with GT paper resources, reducing false positives.
+          </p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column">
+        <div class="content has-text-left">
+          <h2 class="title is-3 has-text-centered">PaperWrite-Bench</h2>
+
+          <p>
+            PaperWrite-Bench is a benchmark of <strong>51 papers</strong> manually curated from diverse top-tier conferences published after 2025, enabling comprehensive evaluation of agents' writing capabilities.
+          </p>
+
+          <div class="columns is-centered" style="margin: 1.5rem 0;">
+            <div class="column is-half">
+              <div class="box has-text-centered">
+                <span class="icon is-large has-text-primary"><i class="fas fa-book fa-2x"></i></span>
+                <p class="title is-4" style="margin-top: 0.5rem;">51 Papers</p>
+                <p class="subtitle is-6 has-text-grey">From top-tier venues</p>
+              </div>
+            </div>
+            <div class="column is-half">
+              <div class="box has-text-centered">
+                <span class="icon is-large has-text-warning"><i class="fas fa-globe fa-2x"></i></span>
+                <p class="title is-4" style="margin-top: 0.5rem;">9 Conferences</p>
+                <p class="subtitle is-6 has-text-grey">Diverse research domains</p>
+              </div>
+            </div>
+          </div>
+
+          <h3 class="title is-4" style="margin-top: 1.5rem;">Conference Coverage</h3>
+          <p>Papers are collected from: <strong>ACL 2025</strong>, <strong>EMNLP 2025</strong>, <strong>CVPR 2025</strong>, <strong>CVPR 2026</strong>, <strong>ICCV 2025</strong>, <strong>ICLR 2025</strong>, <strong>NeurIPS 2025</strong>, <strong>ICLR 2026</strong>, and <strong>ACMMM 2025</strong>.</p>
+
+          <h3 class="title is-4" style="margin-top: 1.5rem;">Paper Types</h3>
+          <div class="columns is-multiline" style="margin-top: 1rem;">
+            <div class="column is-one-third">
+              <div class="notification is-info is-light has-text-centered">
+                <p class="has-text-weight-bold">Method Papers</p>
+                <p class="title is-4">32</p>
+              </div>
+            </div>
+            <div class="column is-one-third">
+              <div class="notification is-success is-light has-text-centered">
+                <p class="has-text-weight-bold">Benchmark Papers</p>
+                <p class="title is-4">12</p>
+              </div>
+            </div>
+            <div class="column is-one-third">
+              <div class="notification is-warning is-light has-text-centered">
+                <p class="has-text-weight-bold">Method + Benchmark</p>
+                <p class="title is-4">7</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column">
+        <div class="content has-text-centered">
+          <h2 class="title is-3">Experimental Results</h2>
+
+          <h3 class="title is-4" style="margin-top: 0.5rem; margin-bottom: 0.5rem;">Presentation Evaluation</h3>
+          <p class="has-text-left">
+            Rubric evaluation scores by model and section (1-5 scale).
+          </p>
+
+          <table class="table is-bordered is-striped is-hoverable" style="margin: 0 auto;">
+            <thead>
+              <tr>
+                <th>Agent</th>
+                <th>Model</th>
+                <th>Abs.</th>
+                <th>Intro.</th>
+                <th>Rel.</th>
+                <th>Meth.</th>
+                <th>Bench.</th>
+                <th>Exp.</th>
+                <th>Avg.</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td colspan="9" style="background-color: #f5f5f5;"><em>Codex</em></td>
+              </tr>
+              <tr>
+                <td>Codex</td>
+                <td>GPT-5</td>
+                <td style="text-align: center;">4.00</td>
+                <td style="text-align: center;">3.58</td>
+                <td style="text-align: center;">2.32</td>
+                <td style="text-align: center;">2.89</td>
+                <td style="text-align: center;">3.25</td>
+                <td style="text-align: center;">3.53</td>
+                <td style="text-align: center;">3.26</td>
+              </tr>
+              <tr>
+                <td>Codex</td>
+                <td>GPT-5.4</td>
+                <td style="text-align: center;">4.06</td>
+                <td style="text-align: center;">3.87</td>
+                <td style="text-align: center;">2.72</td>
+                <td style="text-align: center;">3.51</td>
+                <td style="text-align: center;">3.79</td>
+                <td style="text-align: center;">3.64</td>
+                <td style="text-align: center;">3.59</td>
+              </tr>
+              <tr>
+                <td colspan="9" style="background-color: #f5f5f5;"><em>Claude Code</em></td>
+              </tr>
+              <tr>
+                <td>ClaudeCode</td>
+                <td>Sonnet 4</td>
+                <td style="text-align: center;">4.10</td>
+                <td style="text-align: center;">3.88</td>
+                <td style="text-align: center;">2.48</td>
+                <td style="text-align: center;">3.23</td>
+                <td style="text-align: center;">3.63</td>
+                <td style="text-align: center;">3.66</td>
+                <td style="text-align: center;">3.49</td>
+              </tr>
+              <tr style="background-color: #e8f5e9;">
+                <td><strong>ClaudeCode</strong></td>
+                <td><strong>Sonnet 4.6</strong></td>
+                <td style="text-align: center;"><strong>4.37</strong></td>
+                <td style="text-align: center;"><strong>4.12</strong></td>
+                <td style="text-align: center;"><strong>3.08</strong></td>
+                <td style="text-align: center;"><strong>3.69</strong></td>
+                <td style="text-align: center;">3.84</td>
+                <td style="text-align: center;"><strong>4.00</strong></td>
+                <td style="text-align: center;"><strong>3.86</strong></td>
+              </tr>
+              <tr>
+                <td>ClaudeCode-Teams</td>
+                <td>Sonnet 4.6</td>
+                <td style="text-align: center;">4.28</td>
+                <td style="text-align: center;">4.05</td>
+                <td style="text-align: center;">3.07</td>
+                <td style="text-align: center;">3.62</td>
+                <td style="text-align: center;"><strong>3.99</strong></td>
+                <td style="text-align: center;">3.97</td>
+                <td style="text-align: center;">3.82</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <br>
+
+          <h3 class="title is-4" style="margin-top: 1rem; margin-bottom: 0.5rem;">Hallucination Evaluation</h3>
+          <p class="has-text-left">
+            Average number of hallucinations (major contradictory claims) per paper.
+          </p>
+
+          <table class="table is-bordered is-striped is-hoverable" style="margin: 0 auto;">
+            <thead>
+              <tr>
+                <th>Agent</th>
+                <th>Model</th>
+                <th>Abs.</th>
+                <th>Intro.</th>
+                <th>Rel.</th>
+                <th>Meth.</th>
+                <th>Bench.</th>
+                <th>Exp.</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td colspan="9" style="background-color: #f5f5f5;"><em>Codex</em></td>
+              </tr>
+              <tr>
+                <td>Codex</td>
+                <td>GPT-5</td>
+                <td style="text-align: center;">0.3</td>
+                <td style="text-align: center;">0.6</td>
+                <td style="text-align: center;">0.3</td>
+                <td style="text-align: center;">3.8</td>
+                <td style="text-align: center;">1.9</td>
+                <td style="text-align: center;">3.4</td>
+                <td style="text-align: center;">10.2</td>
+              </tr>
+              <tr style="background-color: #e8f5e9;">
+                <td><strong>Codex</strong></td>
+                <td><strong>GPT-5.4</strong></td>
+                <td style="text-align: center;"><strong>0.1</strong></td>
+                <td style="text-align: center;"><strong>0.3</strong></td>
+                <td style="text-align: center;"><strong>0.2</strong></td>
+                <td style="text-align: center;"><strong>1.3</strong></td>
+                <td style="text-align: center;"><strong>0.2</strong></td>
+                <td style="text-align: center;"><strong>0.9</strong></td>
+                <td style="text-align: center;"><strong>3.0</strong></td>
+              </tr>
+              <tr>
+                <td colspan="9" style="background-color: #f5f5f5;"><em>Claude Code</em></td>
+              </tr>
+              <tr>
+                <td>ClaudeCode</td>
+                <td>Sonnet 4</td>
+                <td style="text-align: center;">0.2</td>
+                <td style="text-align: center;">0.5</td>
+                <td style="text-align: center;">0.5</td>
+                <td style="text-align: center;">5.4</td>
+                <td style="text-align: center;">0.8</td>
+                <td style="text-align: center;">4.7</td>
+                <td style="text-align: center;">12.0</td>
+              </tr>
+              <tr>
+                <td>ClaudeCode</td>
+                <td>Sonnet 4.6</td>
+                <td style="text-align: center;">0.2</td>
+                <td style="text-align: center;">0.8</td>
+                <td style="text-align: center;">0.6</td>
+                <td style="text-align: center;">4.7</td>
+                <td style="text-align: center;">0.5</td>
+                <td style="text-align: center;">3.6</td>
+                <td style="text-align: center;">10.4</td>
+              </tr>
+              <tr>
+                <td>ClaudeCode-Teams</td>
+                <td>Sonnet 4.6</td>
+                <td style="text-align: center;">0.3</td>
+                <td style="text-align: center;">0.6</td>
+                <td style="text-align: center;">0.8</td>
+                <td style="text-align: center;">3.9</td>
+                <td style="text-align: center;">0.5</td>
+                <td style="text-align: center;">3.8</td>
+                <td style="text-align: center;">9.8</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <br>
+
+          <h3 class="title is-4" style="margin-top: 1rem; margin-bottom: 0.5rem;">Citation Evaluation</h3>
+
+          <table class="table is-bordered is-striped is-hoverable" style="margin: 0 auto;">
+            <thead>
+              <tr>
+                <th>Agent</th>
+                <th>Model</th>
+                <th>Prec.</th>
+                <th>Recall</th>
+                <th>F1</th>
+                <th>Hal.</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td colspan="6" style="background-color: #f5f5f5;"><em>Codex</em></td>
+              </tr>
+              <tr>
+                <td>Codex</td>
+                <td>GPT-5</td>
+                <td style="text-align: center;"><strong>0.89</strong></td>
+                <td style="text-align: center;">0.27</td>
+                <td style="text-align: center;">0.39</td>
+                <td style="text-align: center;"><strong>0.0</strong></td>
+              </tr>
+              <tr>
+                <td>Codex</td>
+                <td>GPT-5.4</td>
+                <td style="text-align: center;">0.86</td>
+                <td style="text-align: center;">0.43</td>
+                <td style="text-align: center;">0.56</td>
+                <td style="text-align: center;"><strong>0.0</strong></td>
+              </tr>
+              <tr>
+                <td colspan="6" style="background-color: #f5f5f5;"><em>Claude Code</em></td>
+              </tr>
+              <tr>
+                <td>ClaudeCode</td>
+                <td>Sonnet 4</td>
+                <td style="text-align: center;">0.75</td>
+                <td style="text-align: center;">0.24</td>
+                <td style="text-align: center;">0.34</td>
+                <td style="text-align: center;">3.5</td>
+              </tr>
+              <tr style="background-color: #e8f5e9;">
+                <td><strong>ClaudeCode</strong></td>
+                <td><strong>Sonnet 4.6</strong></td>
+                <td style="text-align: center;">0.83</td>
+                <td style="text-align: center;"><strong>0.58</strong></td>
+                <td style="text-align: center;"><strong>0.67</strong></td>
+                <td style="text-align: center;">0.2</td>
+              </tr>
+              <tr>
+                <td>ClaudeCode-Teams</td>
+                <td>Sonnet 4.6</td>
+                <td style="text-align: center;">0.84</td>
+                <td style="text-align: center;">0.56</td>
+                <td style="text-align: center;">0.66</td>
+                <td style="text-align: center;">0.2</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <br>
+          <br>
+
+          <div class="content has-text-left">
+            <h4 class="title is-5">[F1] Claude Code outperforms Codex in presentation quality.</h4>
+            <p>
+              Claude Code consistently achieves higher presentation scores than Codex across all sections, indicating a stronger ability to capture and articulate key scientific points. However, the best-performing agent (Claude Code with Sonnet 4.6) reaches 3.86, suggesting substantial room for improvement.
+            </p>
+
+            <h4 class="title is-5">[F2] Claude Code exhibits substantially more hallucinations, while Codex significantly reduces them.</h4>
+            <p>
+              Although Claude Code achieves higher presentation quality, it produces a large number of hallucinations, exceeding 10 per paper even with Sonnet 4.6. In contrast, Codex with GPT-5.4 reduces hallucinations to around 3 per paper. These results reveal a clear <strong>trade-off between presentation quality and hallucination</strong>.
+            </p>
+
+            <h4 class="title is-5">[F3] Codex produces fewer citation hallucinations than Claude Code.</h4>
+            <p>
+              While Claude achieves higher Citation F1 scores, Codex produces substantially fewer hallucinated citations. This highlights a trade-off between citation coverage and factual reliability.
+            </p>
+
+            <h4 class="title is-5">[F4] Writing capability improves with model advances.</h4>
+            <p>
+              We observe consistent increases in writing quality from Claude Sonnet 4 to Sonnet 4.6, and from GPT-5 to GPT-5.4, demonstrating that PaperRecon effectively tracks progress in writing capability.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column">
+        <div class="content has-text-left">
+          <h2 class="title is-3 has-text-centered">Analysis</h2>
+
+          <h3 class="title is-4" style="margin-top: 0.5rem;">Effect of Research Overview Length</h3>
+          <p>
+            We investigate how the granularity of the research overview affects reconstruction quality. The default overview provides a high-level summary (463 words on average), while the long overview includes more detailed descriptions (1,492 words on average).
+          </p>
+
+          <table class="table is-bordered is-striped is-hoverable" style="margin: 1rem auto;">
+            <thead>
+              <tr>
+                <th rowspan="2">Overview</th>
+                <th colspan="2" style="text-align: center;">Rubric Eval (higher is better)</th>
+                <th colspan="2" style="text-align: center;">Hallucination (lower is better)</th>
+              </tr>
+              <tr>
+                <th style="text-align: center;">Default</th>
+                <th style="text-align: center;">Long</th>
+                <th style="text-align: center;">Default</th>
+                <th style="text-align: center;">Long</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Sonnet 4</td>
+                <td style="text-align: center;">3.49</td>
+                <td style="text-align: center;"><strong>3.64</strong></td>
+                <td style="text-align: center;">8.8</td>
+                <td style="text-align: center;"><strong>5.8</strong></td>
+              </tr>
+              <tr>
+                <td>Sonnet 4.6</td>
+                <td style="text-align: center;">3.83</td>
+                <td style="text-align: center;"><strong>4.17</strong></td>
+                <td style="text-align: center;">9.8</td>
+                <td style="text-align: center;"><strong>2.3</strong></td>
+              </tr>
+            </tbody>
+          </table>
+          <p>
+            More detailed research overviews lead to higher presentation scores and fewer hallucinations, indicating that our evaluation metrics accurately assess paper quality.
+          </p>
+
+          <h3 class="title is-4" style="margin-top: 2rem;">Performance by Conference Type</h3>
+
+          <table class="table is-bordered is-striped is-hoverable" style="margin: 1rem auto;">
+            <thead>
+              <tr>
+                <th>Conference</th>
+                <th style="text-align: center;"># Papers</th>
+                <th style="text-align: center;">Rubric (higher is better)</th>
+                <th style="text-align: center;">Hal. (lower is better)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>ML</td>
+                <td style="text-align: center;">21</td>
+                <td style="text-align: center;">3.58</td>
+                <td style="text-align: center;">8.3</td>
+              </tr>
+              <tr>
+                <td>CV</td>
+                <td style="text-align: center;">21</td>
+                <td style="text-align: center;">3.63</td>
+                <td style="text-align: center;">10.1</td>
+              </tr>
+              <tr>
+                <td>MM</td>
+                <td style="text-align: center;">5</td>
+                <td style="text-align: center;">3.47</td>
+                <td style="text-align: center;">10.7</td>
+              </tr>
+              <tr style="background-color: #e8f5e9;">
+                <td><strong>NLP</strong></td>
+                <td style="text-align: center;">4</td>
+                <td style="text-align: center;"><strong>3.77</strong></td>
+                <td style="text-align: center;"><strong>6.0</strong></td>
+              </tr>
+            </tbody>
+          </table>
+          <p>
+            NLP conferences achieve the highest performance. NLP papers tend to focus more on findings-based research with fewer complex mathematical formulations, making them easier to reconstruct.
+          </p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column">
+        <div class="content has-text-left">
+          <h2 class="title is-3 has-text-centered">Human Validation</h2>
+
+          <div class="columns" style="margin-top: 1rem;">
+            <div class="column is-half">
+              <div class="box">
+                <h4 class="title is-5"><i class="fas fa-user-check"></i> Presentation Validation</h4>
+                <p>
+                  Human correlation analysis using 72 pairs of generated papers, judged by 3 expert reviewers from top-tier conferences.
+                </p>
+                <p>
+                  <strong>Result:</strong> Kendall's &tau;<sub>b</sub> = 0.578 (p &lt; 0.001), indicating strong alignment between rubric-based evaluation and expert human judgment.
+                </p>
+              </div>
+            </div>
+            <div class="column is-half">
+              <div class="box">
+                <h4 class="title is-5"><i class="fas fa-search"></i> Hallucination Validation</h4>
+                <p>
+                  Manual verification of 97 instances labeled as <em>major contradictory</em> from GPT-5, GPT-5.4, and Sonnet 4.6 papers.
+                </p>
+                <p>
+                  <strong>Result:</strong> 96% precision &mdash; hallucinations detected by our method are highly likely to be genuine contradictions or fabrications.
+                </p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is licensed under a <a rel="license"
+                                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+          <p>
+            This website is inspired by and references
+            <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
