@@ -1,6 +1,6 @@
 # PaperRecon: Paper Reconstruction Evaluation
 
-This is the repository that contains source code for the [PaperRecon project website](https://atsumiyai.github.io/PaperRecon/).
+This is the repository that contains source code for the [PaperRecon project website](https://agent4science-utokyo.github.io/PaperRecon_HP/).
 
 ## Project Description
 
